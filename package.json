@@ -1,0 +1,16 @@
+{
+  "name": "ibm-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "@ibm-cloud/cloudant": "0.0.18",
+    "axios": "^0.21.1",
+    "webpack": "^5.52.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
