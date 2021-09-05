@@ -1,9 +1,12 @@
 const { CloudantV1 } = require('@ibm-cloud/cloudant');
 const { IamAuthenticator } = require('ibm-cloud-sdk-core');
+const { createFunction } = require("../function");
 
-global.main = get;
+createFunction({
+    get: getMetadata
+});
 
-async function get(payload) {
+async function getMetadata(payload) {
     const authenticator = new IamAuthenticator({
         apikey: payload.apikey
     });
@@ -14,14 +17,16 @@ async function get(payload) {
 
     service.setServiceUrl("https://97201239-ced3-4451-bdaf-57f5a75a0cfe-bluemix.cloudantnosqldb.appdomain.cloud");
 
-    var doc = await service.getDocument(resource.cloudant);
-
-    var result = {};
-
-    resource.fields.forEach(field => result[field] = doc.result[field]);
+    var doc = await service.getDocument({
+        db: "metadata",
+        docId: "metadata"
+    });
 
     return {
         status: 200,
-        body: result
+        body: {
+            version: doc.result.version,
+            extensions: doc.result.extensions
+        }
     };
 }
