@@ -16,39 +16,21 @@ const RESOURCES = {
 async function resources(payload) {
     if (!payload.token) {
         return {
-            status: 400,
+            statusCode: 400,
             body: "You must provide a token"
         }
     }
 
-    var token;
-    try {
-        token = new Token(JSON.parse(payload.token));
-    }
-    catch (e) {
-        return {
-            status: 500,
-            body: e.message
-        };
-    }
+    var token = new Token(JSON.parse(payload.token));
 
     if (new Date() > token.termination)
         return {
-            status: 422,
+            statusCode: 422,
             body: "Token is terminated"
         };
 
-    if (new Date() > token.expiry) {
-        try {
-            await token.refresh(payload.client_id, payload.client_secret);
-        }
-        catch (e) {
-            return {
-                status: 500,
-                body: e.message
-            };
-        }
-    }
+    if (new Date() > token.expiry) 
+        await token.refresh(payload.client_id, payload.client_secret);
     
     var result = {
         result: {},
@@ -59,7 +41,7 @@ async function resources(payload) {
         result.result[RESOURCES[resource]] = await getResource(resource, token);
 
     return {
-        status: 200,
+        statusCode: 200,
         body: result
     }
 }

@@ -9,7 +9,7 @@ createFunction({
 async function auth(payload) {
     if (payload.__ow_body.length == 0) {
         return {
-            status: 400,
+            statusCode: 400,
             body: "You must provide a code"
         };
     }
@@ -28,22 +28,10 @@ async function auth(payload) {
         } 
     });
 
-    var token;
-    try {
-        token = new Token(response.data);
-    }
-    catch (e) {
-        return {
-            status: 500,
-            body: {
-                message: e.message,
-                stack: e.stack
-            }
-        };
-    }
+    var token = new Token(response.data);
 
     return {
-        status: 200,
+        statusCode: 200,
         body: token
     };
 }
