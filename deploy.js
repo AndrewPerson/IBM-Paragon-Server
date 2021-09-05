@@ -12,11 +12,20 @@ fs.rm(path.resolve(__dirname, "dist",), {recursive: true, force: true}, () => {
 
         files.forEach(async file => {
             await new Promise(resolve => {
-                console.log(`> ibmcloud fn action update ${file.split(".")[0]} dist/${file} --web true`);
-                process.exec(`ibmcloud fn action update ${file.split(".")[0]} dist/${file} --web true`, (err, stdout) => {
-                    console.log(stdout);
-                    resolve();
-                });
+                if (file == "auth.js") {
+                    console.log(`> ibmcloud fn action update ${file.split(".")[0]} dist/${file} --web raw -a web-custom-options false`);
+                    process.exec(`ibmcloud fn action update ${file.split(".")[0]} dist/${file} --web raw -a web-custom-options false`, (err, stdout) => {
+                        console.log(stdout);
+                        resolve();
+                    });
+                }
+                else {
+                    console.log(`> ibmcloud fn action update ${file.split(".")[0]} dist/${file} --web true -a web-custom-options false`);
+                    process.exec(`ibmcloud fn action update ${file.split(".")[0]} dist/${file} --web true -a web-custom-options false`, (err, stdout) => {
+                        console.log(stdout);
+                        resolve();
+                    });
+                }
             });
         });
     });
