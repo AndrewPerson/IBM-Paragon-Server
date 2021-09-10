@@ -1,5 +1,4 @@
-const { CloudantV1 } = require('@ibm-cloud/cloudant');
-const { IamAuthenticator } = require('ibm-cloud-sdk-core');
+const admin = require('firebase-admin');
 const { createFunction } = require("../lib/function");
 
 createFunction({
@@ -7,26 +6,23 @@ createFunction({
 });
 
 async function getMetadata(payload) {
-    const authenticator = new IamAuthenticator({
-        apikey: payload.apikey
-    });
+    if (admin.apps.length == 0) {
+        admin.initializeApp({
+            credential: admin.credential.cert(payload.firebase_credential)
+        });
+    }
+    
+    var firestore = admin.firestore();
 
-    const service = new CloudantV1({
-        authenticator: authenticator
-    });
+    var metadataDoc = await firestore.doc("Metadata/Metadata").get();
 
-    service.setServiceUrl("https://97201239-ced3-4451-bdaf-57f5a75a0cfe-bluemix.cloudantnosqldb.appdomain.cloud");
-
-    var doc = await service.getDocument({
-        db: "metadata",
-        docId: "metadata"
-    });
+    var data = metadataDoc.data();
 
     return {
         statusCode: 200,
         body: {
-            version: doc.result.version,
-            extensions: doc.result.extensions
+            version: data.Version,
+            extensions: data.Extensions
         }
     };
 }

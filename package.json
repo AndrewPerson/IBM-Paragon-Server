@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "@ibm-cloud/cloudant": "0.0.18",
+    "@firebase/app": "^0.7.0",
     "axios": "^0.21.1",
+    "firebase-admin": "^9.11.1",
     "webpack": "^5.52.0"
   },
   "scripts": {
