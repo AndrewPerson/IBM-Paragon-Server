@@ -37,8 +37,11 @@ async function resources(payload) {
         token: token
     };
 
-    for (var resource in RESOURCES)
-        result.result[RESOURCES[resource]] = await getResource(resource, token);
+    for (var resource in RESOURCES) {
+        getResource(resource, token).then(resourceResult => {
+            result.result[RESOURCES[resource]] = resourceResult;
+        });
+    }
 
     return {
         statusCode: 200,
