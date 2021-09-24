@@ -37,17 +37,9 @@ async function resources(payload) {
         token: token
     };
 
-    var fetchPromises = [];
     for (var resource in RESOURCES) {
-        fetchPromises.push(getResource(resource, token));
-    }
-
-    var resourceResults = await Promise.all(fetchPromises);
-
-    var i = 0;
-    for (var resource in RESOURCES) {
-        result.result[RESOURCES[resource]] = resourceResults[i];
-        i++;
+        var resourceResponse = await getResource(resource, token);
+        result.result[RESOURCES[resource]] = resourceResponse;
     }
 
     return {
