@@ -7,6 +7,13 @@ createFunction({
 });
 
 async function auth(payload) {
+    if (!payload.__ow_body) {
+        return {
+            statusCode: 400,
+            body: "You must provide a code"
+        };
+    }
+
     if (payload.__ow_body.length == 0) {
         return {
             statusCode: 400,
