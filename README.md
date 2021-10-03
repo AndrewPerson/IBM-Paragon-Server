@@ -28,10 +28,10 @@ The auth function is invoked via a HTTP POST request. The body is just a string,
 For example:
 
 ```js
-    await fetch("https://whatever.url.you.have/auth", {
-        method: "POST",
-        body: "<authorization code>"
-    });
+await fetch("https://whatever.url.you.have/auth", {
+    method: "POST",
+    body: "<authorization code>"
+});
 ```
 
 ### resources
@@ -41,5 +41,5 @@ The resources function is invoked by a HTTP GET request. It takes one query para
 For example:
 
 ```js
-    await fetch("https://whatever.url.you.have/resource?token=<token from auth function>");
+await fetch("https://whatever.url.you.have/resource?token=<token from auth function>");
 ```
