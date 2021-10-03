@@ -45,6 +45,21 @@ async function resources(payload) {
         }));
     });
 
+    var now = new Date();
+    var year = (now.getFullYear()).toString();
+    var month = (now.getMonth() + 1).toString();
+    var day = now.getDate().toString();
+
+    if (month < 10)
+        month = `0${month}`;
+
+    if (day < 10)
+        day = `0${day}`;
+
+    promises.push(getResource(`timetable/dailytimetable.json?date=${year}-${month}-${day}`, token).then(resourceResponse => {
+        result.result["next-dailytimetable"] = resourceResponse;
+    }));
+
     await Promise.all(promises);
 
     return {
