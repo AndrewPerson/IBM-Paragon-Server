@@ -56,7 +56,7 @@ async function resources(payload) {
     if (day < 10)
         day = `0${day}`;
 
-    promises.push(getResource(`timetable/dailytimetable.json?date=${year}-${month}-${day}`, token).then(resourceResponse => {
+    promises.push(getResource(`timetable/daytimetable.json?date=${year}-${month}-${day}`, token).then(resourceResponse => {
         result.result["next-dailytimetable"] = resourceResponse;
     }));
 
