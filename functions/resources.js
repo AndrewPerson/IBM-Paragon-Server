@@ -48,7 +48,7 @@ async function resources(payload) {
     var now = new Date();
     var year = (now.getFullYear()).toString();
     var month = (now.getMonth() + 1).toString();
-    var day = now.getDate().toString();
+    var day = (now.getDate() + 1).toString();
 
     if (month < 10)
         month = `0${month}`;
