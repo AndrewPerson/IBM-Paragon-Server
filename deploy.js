@@ -3,7 +3,7 @@ const process = require("child_process");
 const path = require("path");
 
 fs.rm(path.resolve(__dirname, "dist",), {recursive: true, force: true}, () => {
-    process.exec("rollup -c", async () => {
+    process.exec("npx rollup -c", async () => {
         var files = await new Promise(resolve => {
             fs.readdir(path.resolve(__dirname, "functions"), (err, files) => {
                 resolve(files);
