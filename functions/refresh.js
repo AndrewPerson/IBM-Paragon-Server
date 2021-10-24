@@ -2,10 +2,10 @@ import { createFunction } from "../lib/function";
 import { Token } from "../lib/token";
 
 createFunction({
-    post: auth
+    post: refresh
 });
 
-async function auth(payload) {
+async function refresh(payload) {
     if (!payload) {
         return {
             statusCode: 400,
