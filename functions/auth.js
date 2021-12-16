@@ -7,19 +7,17 @@ createFunction({
 });
 
 async function auth(payload) {
-    if (!payload.__ow_body) {
+    if (!payload.__ow_body)
         return {
             statusCode: 400,
             body: "You must provide a code"
         };
-    }
 
-    if (payload.__ow_body.length == 0) {
+    if (payload.__ow_body.length == 0)
         return {
             statusCode: 400,
             body: "You must provide a code"
         };
-    }
 
     var response = await axios.post("https://student.sbhs.net.au/api/token", new URLSearchParams({
         code: payload.__ow_body,

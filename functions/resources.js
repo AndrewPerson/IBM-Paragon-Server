@@ -14,12 +14,11 @@ const RESOURCES = {
 }
 
 async function resources(payload) {
-    if (!payload.token) {
+    if (!payload.token)
         return {
             statusCode: 400,
             body: "You must provide a token"
-        }
-    }
+        };
 
     var token = new Token(JSON.parse(payload.token));
 
@@ -65,7 +64,7 @@ async function resources(payload) {
     return {
         statusCode: 200,
         body: result
-    }
+    };
 }
 
 async function getResource(resource, token) {
