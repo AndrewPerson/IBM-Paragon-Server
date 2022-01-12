@@ -12,8 +12,9 @@
     "author": "",
     "license": "ISC",
     "devDependencies": {
-        "@rollup/plugin-node-resolve": "^13.0.5",
-        "rollup": "^2.58.0",
-        "rollup-plugin-terser": "^7.0.2"
+        "esbuild": "^0.14.11",
+        "esbuild-plugin-clear": "^1.0.1",
+        "glob": "^7.2.0",
+        "openwhisk": "^3.21.6"
     }
 }

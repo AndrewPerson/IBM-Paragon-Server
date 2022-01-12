@@ -1,12 +1,8 @@
-const axios = require("axios").default;
-import { createFunction } from "../lib/function";
+import axios from "axios";
+import { create } from "../lib/function";
 import { Token } from "../lib/token";
 
-createFunction({
-    post: auth
-});
-
-async function auth(payload) {
+create(async (payload) => {
     if (!payload.__ow_body)
         return {
             statusCode: 400,
@@ -24,7 +20,8 @@ async function auth(payload) {
         grant_type: "authorization_code",
         client_id: payload.client_id,
         client_secret: payload.client_secret,
-        //Change this to web-paragon when releasing
+        //TODO Change this to paragon.au if I get that domain
+        //TODO Change this to paragon.pages.dev when releasing
         redirect_uri: "https://beta-paragon.web.app/callback"
     }),
     {
@@ -36,7 +33,6 @@ async function auth(payload) {
     var token = new Token(response.data);
 
     return {
-        statusCode: 200,
         body: token
     };
-}
+});

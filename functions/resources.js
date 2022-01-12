@@ -1,10 +1,6 @@
-const axios = require("axios").default;
-import { createFunction } from "../lib/function";
+import axios from "axios";
+import { create } from "../lib/function";
 import { Token } from "../lib/token";
-
-createFunction({
-    get: resources
-});
 
 const RESOURCES = {
     "dailynews/list.json": "announcements",
@@ -13,7 +9,17 @@ const RESOURCES = {
     "details/userinfo.json": "userinfo"
 }
 
-async function resources(payload) {
+async function getResource(resource, token) {
+    var response = await axios.get(`https://student.sbhs.net.au/api/${resource}`, {
+        headers: {
+            "Authorization": `Bearer ${token.access_token}`
+        }
+    });
+
+    return response.data;
+}
+
+create(async (payload) => {
     if (!payload.token)
         return {
             statusCode: 400,
@@ -62,17 +68,6 @@ async function resources(payload) {
     await Promise.all(promises);
 
     return {
-        statusCode: 200,
         body: result
     };
-}
-
-async function getResource(resource, token) {
-    var response = await axios.get(`https://student.sbhs.net.au/api/${resource}`, {
-        headers: {
-            "Authorization": `Bearer ${token.access_token}`
-        }
-    });
-
-    return response.data;
-}
+});
