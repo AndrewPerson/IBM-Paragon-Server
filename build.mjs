@@ -84,6 +84,12 @@ async function Main() {
             limits: {
                 memory: 128,
                 timeout: 1000
+            },
+            annotations: {
+                "web-export": true,
+                "final": true,
+                "raw-http": false,
+                "require-whisk-auth": false
             }
         }).then(() => {
             console.log(`Created ${name}`);
