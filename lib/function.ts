@@ -2,8 +2,13 @@ const process = require("process");
 
 const LOGVERSION = "LOGVERSION 3";
 
-export function create(func) {
-    global.main = async (payload) => {
+export type Response = {
+    statusCode?: number,
+    body?: any
+}
+
+export function create(func: (payload: any) => Promise<Response>) {
+    global.main = async (payload: any) => {
         try {
             var result = await func(payload);
         }
@@ -23,7 +28,6 @@ export function create(func) {
 
         var response = {
             statusCode: statusCode,
-            headers: result.headers,
             body: result.body
         };
 

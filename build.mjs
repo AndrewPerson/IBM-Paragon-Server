@@ -16,7 +16,7 @@ import { readFile } from "fs/promises";
 Main();
 async function Main() {
     let files = await new Promise((resolve, reject) => {
-        glob.glob("functions/*.js", (err, files) => {
+        glob.glob("functions/*.ts", (err, files) => {
             if (err)
                 reject(err);
             else
@@ -29,6 +29,7 @@ async function Main() {
         outdir: "dist",
         bundle: true,
         minify: true,
+        treeShaking: true,
         target: "es2017",
         platform: "node",
         plugins: [

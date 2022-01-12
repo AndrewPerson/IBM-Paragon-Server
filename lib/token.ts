@@ -1,7 +1,12 @@
 const axios = require("axios").default;
 
 export class Token {
-    constructor(unformatted) {
+    access_token: string;
+    refresh_token: string;
+    expiry: Date;
+    termination: Date;
+
+    constructor(unformatted: any) {
         if ("error" in unformatted)
             throw new Error(unformatted.error);
 
@@ -39,7 +44,7 @@ export class Token {
         }
     }
 
-    async refresh(client_id, client_secret) {
+    async refresh(client_id: string, client_secret: string) {
         var response = await axios.post("https://student.sbhs.net.au/api/token", new URLSearchParams({
             refresh_token: this.refresh_token,
             grant_type: "refresh_token",

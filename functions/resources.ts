@@ -1,5 +1,5 @@
 import axios from "axios";
-import { create } from "../lib/function";
+import { create, Response } from "../lib/function";
 import { Token } from "../lib/token";
 
 const RESOURCES = {
@@ -9,7 +9,7 @@ const RESOURCES = {
     "details/userinfo.json": "userinfo"
 }
 
-async function getResource(resource, token) {
+async function getResource(resource: string, token: Token) {
     var response = await axios.get(`https://student.sbhs.net.au/api/${resource}`, {
         headers: {
             "Authorization": `Bearer ${token.access_token}`
@@ -19,7 +19,7 @@ async function getResource(resource, token) {
     return response.data;
 }
 
-create(async (payload) => {
+create(async (payload: any): Promise<Response> => {
     if (!payload.token)
         return {
             statusCode: 400,
@@ -51,15 +51,14 @@ create(async (payload) => {
     });
 
     var now = new Date();
+
     var year = (now.getFullYear()).toString();
-    var month = (now.getMonth() + 1).toString();
-    var day = (now.getDate() + 1).toString();
 
-    if (month < 10)
-        month = `0${month}`;
+    if (now.getMonth() + 1 < 10) var month = `0${now.getMonth() + 1}`;
+    else var month = (now.getMonth() + 1).toString();
 
-    if (day < 10)
-        day = `0${day}`;
+    if (now.getDate() + 1 < 10) var day = `0${now.getDate() + 1}`;
+    else var day = (now.getDate() + 1).toString();
 
     promises.push(getResource(`timetable/daytimetable.json?date=${year}-${month}-${day}`, token).then(resourceResponse => {
         result.result["next-dailytimetable"] = resourceResponse;

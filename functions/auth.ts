@@ -2,7 +2,7 @@ import axios from "axios";
 import { create } from "../lib/function";
 import { Token } from "../lib/token";
 
-create(async (payload) => {
+create(async (payload: any) => {
     if (!payload.__ow_body)
         return {
             statusCode: 400,
