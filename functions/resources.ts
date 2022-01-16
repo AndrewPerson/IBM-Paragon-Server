@@ -2,11 +2,13 @@ import axios from "axios";
 import { create, Response } from "../lib/function";
 import { Token } from "../lib/token";
 
-const RESOURCES = {
+const RESOURCES: {
+    [index: string]: string
+} = {
     "dailynews/list.json": "announcements",
     "timetable/daytimetable.json": "dailytimetable",
     "timetable/timetable.json": "timetable",
-    "details/userinfo.json": "userinfo"
+    "details/userinfo.json": "userinfo",
 }
 
 async function getResource(resource: string, token: Token) {
@@ -37,7 +39,10 @@ create(async (payload: any): Promise<Response> => {
     if (new Date() > token.expiry) 
         await token.refresh(payload.client_id, payload.client_secret);
     
-    var result = {
+    var result: {
+        result: {[index: string]: any},
+        token: Token
+    } = {
         result: {},
         token: token
     };

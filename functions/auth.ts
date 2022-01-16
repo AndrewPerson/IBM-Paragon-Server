@@ -16,7 +16,7 @@ create(async (payload: any) => {
         client_secret: payload.client_secret,
         //TODO Change this to paragon.au if I get that domain
         //TODO Change this to paragon.pages.dev when releasing
-        redirect_uri: "https://beta-paragon.web.app/callback"
+        redirect_uri: "https://paragon.pages.dev/callback"
     }),
     {
         headers: {
