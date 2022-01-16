@@ -3,14 +3,14 @@ import { create } from "../lib/function";
 import { Token } from "../lib/token";
 
 create(async (payload: any) => {
-    if (!payload.__ow_body?.code)
+    if (!payload.code)
         return {
             statusCode: 400,
             body: "You must provide a code"
         };
 
     var response = await axios.post("https://student.sbhs.net.au/api/token", new URLSearchParams({
-        code: payload.__ow_body,
+        code: payload.code,
         grant_type: "authorization_code",
         client_id: payload.client_id,
         client_secret: payload.client_secret,
