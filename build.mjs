@@ -82,8 +82,8 @@ async function Main() {
             action: await readFile(file, "utf8"),
             overwrite: true,
             limits: {
-                memory: 128,
-                timeout: 1000
+                memory: config[name]?.memory ?? 128,
+                timeout: config[name]?.timeout ?? 1000
             },
             annotations: {
                 "web-export": true,
