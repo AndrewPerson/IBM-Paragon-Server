@@ -16,7 +16,7 @@
         "esbuild": "^0.14.11",
         "esbuild-plugin-clear": "^1.0.1",
         "glob": "^7.2.0",
-        "mysql": "^2.18.1",
-        "openwhisk": "^3.21.6"
+        "openwhisk": "^3.21.6",
+        "promise-mysql": "^5.1.0"
     }
 }
