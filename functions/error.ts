@@ -4,9 +4,9 @@ import { createConnection } from "promise-mysql";
 
 create(async (payload: any) => {
     let connection = await createConnection({
-        host: payload.sql_host,
-        user: payload.sql_user,
-        password: payload.sql_password
+        host: payload.SQL_HOST,
+        user: payload.SQL_USER,
+        password: payload.SQL_PASSWORD
     });
 
     await connection.query("INSERT INTO incidents (error_name, stack_trace, version) VALUES (?, ?, ?)", [payload.error_name, payload.stack_trace, payload.version]);

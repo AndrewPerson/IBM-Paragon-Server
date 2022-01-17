@@ -12,8 +12,8 @@ create(async (payload: any) => {
     var response = await axios.post("https://student.sbhs.net.au/api/token", new URLSearchParams({
         code: payload.code,
         grant_type: "authorization_code",
-        client_id: payload.client_id,
-        client_secret: payload.client_secret,
+        client_id: payload.CLIENT_ID,
+        client_secret: payload.CLIENT_SECRET,
         //TODO Change this to paragon.au if I get that domain
         //TODO Change this to paragon.pages.dev when releasing
         redirect_uri: "https://paragon.pages.dev/callback"

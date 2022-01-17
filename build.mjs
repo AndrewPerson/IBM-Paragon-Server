@@ -7,7 +7,6 @@ import clear from "esbuild-plugin-clear";
 import glob from "glob";
 
 import axios from "axios";
-import { URLSearchParams } from "url";
 
 import openwhisk from "openwhisk";
 
@@ -83,7 +82,7 @@ async function Main() {
             overwrite: true,
             limits: {
                 memory: config[name]?.memory ?? 128,
-                timeout: config[name]?.timeout ?? 1000
+                timeout: config[name]?.timeout ?? 3000
             },
             annotations: {
                 "web-export": true,

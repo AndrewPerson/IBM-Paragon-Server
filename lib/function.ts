@@ -9,6 +9,9 @@ export type Response = {
 
 export function create(func: (payload: any) => Promise<Response>) {
     global.main = async (payload: any) => {
+        if (payload.__ow_body !== undefined && payload.__ow_body !== null)
+            payload = Object.assign(JSON.parse(payload.__ow_body), payload);
+
         try {
             var result = await func(payload);
         }
