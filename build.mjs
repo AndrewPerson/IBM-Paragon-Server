@@ -2,6 +2,16 @@ import { createRequire } from "module";
 const require = createRequire(import.meta.url);
 const config = require("./config.json");
 
+try {
+    var secrets = require("./secrets.json");
+}
+catch (e) {
+    var secrets = {
+        IBM_API_KEY: process.argv[2],
+        IBM_FUNCTIONS_NAMESPACE: process.argv[3]
+    }
+}
+
 import { build } from "esbuild";
 import clear from "esbuild-plugin-clear";
 import glob from "glob";
@@ -49,7 +59,7 @@ async function Main() {
     var response = await axios.post("https://iam.cloud.ibm.com/identity/token",
         new URLSearchParams({
             "grant_type": "urn:ibm:params:oauth:grant-type:apikey",
-            "apikey": config.IBM_API_KEY
+            "apikey": secrets.IBM_API_KEY
         }).toString()
     );
     
@@ -77,7 +87,7 @@ async function Main() {
 
         await client.actions.create({
             name: name,
-            namespace: config.IBM_FUNCTIONS_NAMESPACE,
+            namespace: secrets.IBM_FUNCTIONS_NAMESPACE,
             action: await readFile(file, "utf8"),
             overwrite: true,
             limits: {
