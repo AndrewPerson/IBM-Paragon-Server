@@ -82,7 +82,7 @@ async function Main() {
             overwrite: true,
             limits: {
                 memory: config[name]?.memory ?? 128,
-                timeout: config[name]?.timeout ?? 2000
+                timeout: config[name]?.timeout ?? 3000
             },
             annotations: {
                 "web-export": true,
