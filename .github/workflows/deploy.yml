@@ -17,4 +17,5 @@ jobs:
       with:
         node-version: 16.x
         cache: 'npm'
+    - run: npm install
     - run: node build.mjs ${{ secrets.IBM_API_KEY }} ${{ secrets.IBM_FUNCTIONS_NAMESPACE }}
