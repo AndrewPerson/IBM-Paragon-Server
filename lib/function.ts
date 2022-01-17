@@ -7,6 +7,8 @@ export type Response = {
     body?: any
 }
 
+declare const global: {[index: string]: any};
+
 export function create(func: (payload: any) => Promise<Response>) {
     global.main = async (payload: any) => {
         if (payload.__ow_body !== undefined && payload.__ow_body !== null)

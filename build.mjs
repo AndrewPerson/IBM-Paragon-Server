@@ -36,7 +36,7 @@ async function Main() {
             {
                 name: "plugin-excluder",
                 setup(build) {
-                    build.onResolve({ filter: /(axios)|(promise-mysql)/ }, args => {
+                    build.onResolve({ filter: /(axios)|(mysql)/ }, args => {
                         return {
                             external: true
                         }
