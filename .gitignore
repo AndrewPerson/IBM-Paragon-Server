@@ -3,3 +3,5 @@ secrets.json
 /.devcontainer
 
 /node_modules
+
+/dist
