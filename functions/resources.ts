@@ -2,14 +2,12 @@ import axios from "axios";
 import { create, Response } from "../lib/function";
 import { Token } from "../lib/token";
 
-const RESOURCES: {
-    [index: string]: string
-} = {
-    "dailynews/list.json": "announcements",
-    "timetable/daytimetable.json": "dailytimetable",
-    "timetable/timetable.json": "timetable",
-    "details/userinfo.json": "userinfo",
-}
+const RESOURCES: Map<string, string> = new Map([
+    ["dailynews/list.json", "announcements"],
+    ["timetable/daytimetable.json", "dailytimetable"],
+    ["timetable/timetable.json", "timetable"],
+    ["details/userinfo.json", "userinfo"]
+]);
 
 async function getResource(resource: string, token: Token) {
     var response = await axios.get(`https://student.sbhs.net.au/api/${resource}`, {
@@ -49,11 +47,11 @@ create(async (payload: any): Promise<Response> => {
 
     var promises = [];
 
-    Object.keys(RESOURCES).forEach(resource => {
-        promises.push(getResource(resource, token).then(resourceResponse => {
-            result.result[RESOURCES[resource]] = resourceResponse;
+    for (let [url, name] of RESOURCES) {
+        promises.push(getResource(url, token).then(resourceResponse => {
+            result.result[name] = resourceResponse;
         }));
-    });
+    }
 
     var now = new Date();
 
