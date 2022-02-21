@@ -10,15 +10,21 @@ export function create(func: (payload: any) => Promise<Response>) {
         if (payload.__ow_body !== undefined && payload.__ow_body !== null)
             payload = Object.assign(JSON.parse(payload.__ow_body), payload);
 
-        var result = await func(payload);
+        try {
+            var result = await func(payload);
+        }
+        catch (e) {
+            return {
+                statusCode: 500,
+                body: {
+                    error: "Internal Server Error"
+                }
+            }
+        }
 
-        var statusCode = result.statusCode || 200;
-
-        var response = {
-            statusCode: statusCode,
+        return {
+            statusCode: result.statusCode || 200,
             body: result.body
         };
-
-        return response;
     }
 }
