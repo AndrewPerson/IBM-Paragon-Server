@@ -15,9 +15,8 @@ export function create(func: (payload: any) => Promise<Response>) {
         }
         catch (e) {
             return {
-                statusCode: 500,
-                body: {
-                    error: "Internal Server Error"
+                error: {
+                    statusCode: 500
                 }
             }
         }
@@ -25,6 +24,6 @@ export function create(func: (payload: any) => Promise<Response>) {
         return {
             statusCode: result.statusCode || 200,
             body: result.body
-        };
+        }
     }
 }
