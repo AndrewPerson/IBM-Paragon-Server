@@ -3,10 +3,10 @@ const require = createRequire(import.meta.url);
 const config = require("./config.json");
 
 try {
-    var secrets = require("./secrets.json");
+    let secrets = require("./secrets.json");
 }
 catch (e) {
-    var secrets = {
+    let secrets = {
         IBM_API_KEY: process.argv[2],
         IBM_FUNCTIONS_NAMESPACE: process.argv[3]
     }
@@ -56,7 +56,7 @@ async function Main() {
         ]
     });
 
-    var response = await axios.post("https://iam.cloud.ibm.com/identity/token",
+    let response = await axios.post("https://iam.cloud.ibm.com/identity/token",
         new URLSearchParams({
             "grant_type": "urn:ibm:params:oauth:grant-type:apikey",
             "apikey": secrets.IBM_API_KEY

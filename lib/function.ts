@@ -1,6 +1,7 @@
 export type Response = {
     statusCode?: number,
-    body?: any
+    body?: any,
+    ok?: boolean
 }
 
 declare const global: {[index: string]: any};
@@ -10,10 +11,13 @@ export function create(func: (payload: any) => Promise<Response>) {
         if (payload.__ow_body !== undefined && payload.__ow_body !== null)
             payload = Object.assign(JSON.parse(payload.__ow_body), payload);
 
+        let result: Response;
         try {
-            var result = await func(payload);
+            result = await func(payload);
         }
         catch (e) {
+            console.log(e);
+
             return {
                 error: {
                     statusCode: 500
@@ -21,9 +25,17 @@ export function create(func: (payload: any) => Promise<Response>) {
             }
         }
 
-        return {
-            statusCode: result.statusCode || 200,
-            body: result.body
-        }
+        if (result.ok ?? true)
+            return {
+                statusCode: result.statusCode || 200,
+                body: result.body
+            }
+        else
+            return {
+                error: {
+                    statusCode: result.statusCode || 200,
+                    body: result.body
+                }
+            }
     }
 }

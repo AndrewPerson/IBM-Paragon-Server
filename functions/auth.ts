@@ -1,6 +1,6 @@
 import axios from "axios";
 import { create } from "../lib/function";
-import { Token } from "../lib/token";
+import { TokenFactory } from "../lib/token";
 
 create(async (payload: any) => {
     if (!payload.code)
@@ -9,13 +9,12 @@ create(async (payload: any) => {
             body: "You must provide a code"
         };
 
-    var response = await axios.post("https://student.sbhs.net.au/api/token", new URLSearchParams({
+    let response = await axios.post("https://student.sbhs.net.au/api/token", new URLSearchParams({
         code: payload.code,
         grant_type: "authorization_code",
         client_id: payload.CLIENT_ID,
         client_secret: payload.CLIENT_SECRET,
         //TODO Change this to paragon.au if I get that domain
-        //TODO Change this to paragon.pages.dev when releasing
         redirect_uri: "https://paragon.pages.dev/callback"
     }),
     {
@@ -24,7 +23,7 @@ create(async (payload: any) => {
         } 
     });
 
-    var token = new Token(response.data);
+    let token = TokenFactory.Create(response.data);
 
     return {
         body: token

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { create, Response } from "../lib/function";
-import { Token } from "../lib/token";
+import { Token, TokenFactory } from "../lib/token";
 
 const RESOURCES: Map<string, string> = new Map([
     ["dailynews/list.json", "announcements"],
@@ -10,7 +10,7 @@ const RESOURCES: Map<string, string> = new Map([
 ]);
 
 async function getResource(resource: string, token: Token) {
-    var response = await axios.get(`https://student.sbhs.net.au/api/${resource}`, {
+    let response = await axios.get(`https://student.sbhs.net.au/api/${resource}`, {
         headers: {
             "Authorization": `Bearer ${token.access_token}`
         }
@@ -26,7 +26,7 @@ create(async (payload: any): Promise<Response> => {
             body: "You must provide a token"
         };
 
-    var token = new Token(JSON.parse(payload.token));
+    let token = TokenFactory.Create(JSON.parse(payload.token));
 
     if (new Date() > token.termination)
         return {
@@ -35,9 +35,9 @@ create(async (payload: any): Promise<Response> => {
         };
 
     if (new Date() > token.expiry) 
-        await token.refresh(payload.client_id, payload.client_secret);
+        token = await TokenFactory.Refresh(token, payload.client_id, payload.client_secret);
     
-    var result: {
+    let result: {
         result: {[index: string]: any},
         token: Token
     } = {
@@ -45,7 +45,7 @@ create(async (payload: any): Promise<Response> => {
         token: token
     };
 
-    var promises = [];
+    let promises = [];
 
     for (let [url, name] of RESOURCES) {
         promises.push(getResource(url, token).then(resourceResponse => {
@@ -53,15 +53,17 @@ create(async (payload: any): Promise<Response> => {
         }));
     }
 
-    var now = new Date();
+    let now = new Date();
 
-    var year = (now.getFullYear()).toString();
+    let year = (now.getFullYear()).toString();
 
-    if (now.getMonth() + 1 < 10) var month = `0${now.getMonth() + 1}`;
-    else var month = (now.getMonth() + 1).toString();
+    let month: string;
+    if (now.getMonth() + 1 < 10) month = `0${now.getMonth() + 1}`;
+    else month = (now.getMonth() + 1).toString();
 
-    if (now.getDate() + 1 < 10) var day = `0${now.getDate() + 1}`;
-    else var day = (now.getDate() + 1).toString();
+    let day: string;
+    if (now.getDate() + 1 < 10) day = `0${now.getDate() + 1}`;
+    else day = (now.getDate() + 1).toString();
 
     promises.push(getResource(`timetable/daytimetable.json?date=${year}-${month}-${day}`, token).then(resourceResponse => {
         result.result["next-dailytimetable"] = resourceResponse;
