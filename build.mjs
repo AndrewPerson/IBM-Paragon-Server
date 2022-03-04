@@ -2,11 +2,12 @@ import { createRequire } from "module";
 const require = createRequire(import.meta.url);
 const config = require("./config.json");
 
+let secrets;
 try {
-    let secrets = require("./secrets.json");
+    secrets = require("./secrets.json");
 }
 catch (e) {
-    let secrets = {
+    secrets = {
         IBM_API_KEY: process.argv[2],
         IBM_FUNCTIONS_NAMESPACE: process.argv[3]
     }
