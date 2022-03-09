@@ -35,7 +35,7 @@ create(async (payload: any): Promise<Response> => {
         };
 
     if (new Date() > token.expiry) 
-        token = await TokenFactory.Refresh(token, payload.client_id, payload.client_secret);
+        token = await TokenFactory.Refresh(token, payload.CLIENT_ID, payload.CLIENT_SECRET);
     
     let result: {
         result: {[index: string]: any},
