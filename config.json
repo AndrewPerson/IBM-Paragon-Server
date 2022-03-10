@@ -1,8 +1,5 @@
 {
     "error": {
         "timeout": 4000
-    },
-    "resources": {
-        "timeout": 5000
     }
 }
