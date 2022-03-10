@@ -10,13 +10,11 @@ const RESOURCES: Map<string, string> = new Map([
 ]);
 
 async function getResource(resource: string, token: Token) {
-    console.log(`Fetching resource ${resource}`);
     let response = await axios.get(`https://student.sbhs.net.au/api/${resource}`, {
         headers: {
             "Authorization": `Bearer ${token.access_token}`
         }
     });
-    console.log(`Fetched resource ${resource}`);
 
     return response.data;
 }
@@ -37,9 +35,7 @@ create(async (payload: any): Promise<Response> => {
         };
 
     if (new Date() > token.expiry) {
-        console.log("Refreshing token");
         token = await TokenFactory.Refresh(token, payload.CLIENT_ID, payload.CLIENT_SECRET);
-        console.log("Refreshed token");
     }
 
     let result: {
