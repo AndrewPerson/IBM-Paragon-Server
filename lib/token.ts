@@ -4,7 +4,9 @@ export type Token = {
     access_token: string,
     refresh_token: string,
     expiry: Date,
-    termination: Date
+    termination: Date,
+    iteration: number,
+    previousToken?: Token;
 }
 
 export class TokenFactory {
@@ -18,13 +20,13 @@ export class TokenFactory {
         {
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
-            } 
+            }
         });
 
-        return this.Create(response.data);
+        return this.Create(response.data, token.iteration + 1);
     }
 
-    static Create(unformatted: any): Token {
+    static Create(unformatted: any, iteration: number = 1, previousToken?: Token): Token {
         if ("error" in unformatted)
             throw new Error(unformatted.error);
 
@@ -65,7 +67,9 @@ export class TokenFactory {
             access_token: access_token,
             refresh_token: refresh_token,
             expiry: expiry,
-            termination: termination
+            termination: termination,
+            iteration: iteration,
+            previousToken: previousToken
         }
     }
 }
