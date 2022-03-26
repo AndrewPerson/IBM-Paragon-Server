@@ -28,6 +28,9 @@ create(async (payload: any): Promise<Response> => {
 
     let token = TokenFactory.Create(JSON.parse(payload.token));
 
+    console.log(`Token iteration: ${token.iteration}`);
+    console.log(`Previous token: ${JSON.stringify(token.previousToken)}`);
+
     if (new Date() > token.termination)
         return {
             statusCode: 422,
