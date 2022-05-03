@@ -10,7 +10,7 @@
         "package-lock.json": true,
         "package.json": false,
         ".vscode": true,
-        ".gitattributes": true,
+        ".gitattributes": true
     },
     "explorerExclude.backup": null,
     "cSpell.words": [

@@ -40,14 +40,14 @@ async function Main() {
         bundle: true,
         minify: true,
         treeShaking: true,
-        target: "es2017",
+        target: "ES2020",
         platform: "node",
         plugins: [
             clear("./dist"),
             {
                 name: "plugin-excluder",
                 setup(build) {
-                    build.onResolve({ filter: /(axios)|(mysql)/ }, args => {
+                    build.onResolve({ filter: /(axios)|(mysql)/ }, () => {
                         return {
                             external: true
                         }
@@ -90,6 +90,7 @@ async function Main() {
             name: name,
             namespace: secrets.IBM_FUNCTIONS_NAMESPACE,
             action: await readFile(file, "utf8"),
+            kind: "nodejs:16",
             overwrite: true,
             limits: {
                 memory: config[name]?.memory ?? 128,
