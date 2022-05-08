@@ -4,10 +4,16 @@ export type Response = {
     ok?: boolean
 }
 
-declare const global: {[index: string]: any};
+type APIResponse = {
+    error?: Response
+} & Response;
+
+declare const global: typeof globalThis & {
+    main: (payload: any) => Promise<APIResponse>
+};
 
 export function create(func: (payload: any) => Promise<Response>) {
-    global.main = async (payload: any) => {
+    global.main = async (payload: any): Promise<APIResponse> => {
         if (payload.__ow_body !== undefined && payload.__ow_body !== null)
             payload = Object.assign(JSON.parse(payload.__ow_body), payload);
 
