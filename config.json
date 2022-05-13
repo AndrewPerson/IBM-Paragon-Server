@@ -3,6 +3,6 @@
         "timeout": 4000
     },
     "resources": {
-        "timeout": 4000
+        "timeout": 10000
     }
 }
